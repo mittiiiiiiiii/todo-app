@@ -16,5 +16,17 @@ services:
       - db_data:/var/lib/mysql
       - ./src/database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
+  app:
+    build: .
+    container_name: todo_app
+    command: sh -c "npm install && npm run dev"
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+
 volumes:
   db_data:
