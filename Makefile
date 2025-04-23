@@ -3,7 +3,7 @@ install:
 	make migrate
 
 app:
-	docker compose exec app bash:
+	docker compose exec app bash
 
 stop:
 	docker compose stop
@@ -34,3 +34,13 @@ reset:
 
 studio:
 	docker compose exec app npx prisma studio
+
+refresh:
+	rm -rf node_modules
+	rm -rf prisma/node_modules
+	rm -rf prisma/.prisma
+	rm -rf .next
+	make down
+	docker volume prune -f
+	docker compose build --no-cache
+	make install
