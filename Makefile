@@ -23,7 +23,7 @@ migrate:
 
 reset:
 	docker compose exec app npx prisma migrate reset --force
-	docker compose exec app npx prisma generate
+	make migrate
 
 studio:
 	docker compose exec app npx prisma studio
