@@ -3,10 +3,17 @@ install:
 	make migrate
 
 app:
-	docker compose exec app bash
+	docker compose exec app bash:
 
 stop:
 	docker compose stop
+
+restart:
+	make down
+	make install
+
+logs:
+	docker compose logs -f
 
 start:
 	docker compose start
