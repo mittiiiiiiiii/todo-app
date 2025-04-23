@@ -17,6 +17,7 @@ export default function RegistePage() {
             <input type='text' value={name} onChange={e => setName(e.target.value)} placeholder='名前' required/>
             <input type='text' value={email} onChange={e=> setEmail(e.target.value)} placeholder='メールアドレス' required/>
             <input type='text' value={password} onChange={e=> setPassword(e.target.value)} placeholder='パスワード' required/>
+            <button type='submit'>登録</button>
         </form>
     );
 }
