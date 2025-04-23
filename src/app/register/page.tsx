@@ -8,6 +8,7 @@ export default function RegistePage() {
     const [name, setName] = useState('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        console.log('ボタンが押されたよー');
         e.preventDefault();
         // ここにdbにユーザーを保存するapi
     }
