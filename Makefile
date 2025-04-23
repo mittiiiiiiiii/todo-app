@@ -1,14 +1,29 @@
 install:
 	docker compose up -d
-	docker compose exec app npx prisma migrate dev --name init
-	docker compose exec app npx prisma generate
+	make migrate
 
 app:
 	docker compose exec app bash
 
 stop:
+	docker compose stop
+
+start:
+	docker compose start
+
+down:
 	docker compose down
 
 up:
-	make stop
 	docker compose up -d
+
+migrate:
+	docker compose exec app npx prisma migrate dev --name init
+	docker compose exec app npx prisma generate
+
+reset:
+	docker compose exec app npx prisma migrate reset --force
+	docker compose exec app npx prisma generate
+
+studio:
+	docker compose exec app npx prisma studio
