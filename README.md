@@ -8,6 +8,19 @@
 - Mysqlで実装
   - Next.jsではprismaでdbを管理するのが推奨されいるためprismaで実装
 
+## 環境構築
+
+```bash
+# 起動
+make install
+
+# テーブルをみる
+make studio
+
+# ログをみる
+make logs
+```
+
 ## 進捗状況
 
 - db
