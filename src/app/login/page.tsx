@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import axios from 'axios';
 
 export default function LoginPage() {
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -17,6 +19,7 @@ export default function LoginPage() {
                 password
             });
             console.log('ログインに成功しました',response.data);
+            router.push('/tasks');
         }catch (error) {
             console.log('ログインに失敗しました',error);
         }

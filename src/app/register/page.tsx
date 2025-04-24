@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import axios from 'axios';
+import { useRouter } from 'next/navigation'
 
 export default function RegistePage() {
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -19,6 +21,7 @@ export default function RegistePage() {
                 password
             });
             console.log('登録に成功しました',response.data);
+            router.push('/login');
         }catch (error) {
             console.log('登録に失敗しました',error);
         }
