@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-// import axios from 'axios';
+import axios from 'axios';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -11,6 +11,15 @@ export default function LoginPage() {
         console.log('ボタンが押されたよー');
         e.preventDefault();
         // ここにログインするapi
+        try{
+            const response= await axios.post('/api/login', {
+                email,
+                password
+            });
+            console.log('ログインに成功しました',response.data);
+        }catch (error) {
+            console.log('ログインに失敗しました',error);
+        }
     }
 
     return(
