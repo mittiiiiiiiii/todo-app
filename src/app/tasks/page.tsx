@@ -16,13 +16,13 @@ export default function TasksPage() {
             if (!user) {
                 console.log('ログインしていないのでログインページにリダイレクト');
                 router.push('/login');
-                return false;
+                return null;
             }
-            return true;
+            return JSON.parse(user);
         };
-        const fetchTasks = async () => {
+        const fetchTasks = async (userId: number) => {
             try{
-                const res = await axios.get('/api/tasks');
+                const res = await axios.get('/api/tasks', {params: { userId } });
                 setTasks(res.data.tasks);
             }catch(error){
                 console.log('タスクの取得に失敗しました',error);
@@ -31,9 +31,10 @@ export default function TasksPage() {
 
         // 即時実行
         (async () => {
-            const isLogin = await checkLogin();
-            if (isLogin) {
-                await fetchTasks();
+            const user = await checkLogin();
+            if (user) {
+                console.log('ユーザー情報', user);
+                await fetchTasks(user.id);
             }
         })();
     },[router]);
