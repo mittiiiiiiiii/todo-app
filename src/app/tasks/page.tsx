@@ -10,12 +10,15 @@ export default function TasksPage() {
     const router = useRouter();
 
     useEffect(() => {
-        const checkLogin = () => {
+        const checkLogin = async () => {
             // localStorageにuser情報がなければ未ログインとみなす
             const user = localStorage.getItem('user');
             if (!user) {
+                console.log('ログインしていないのでログインページにリダイレクト');
                 router.push('/login');
+                return false;
             }
+            return true;
         };
         const fetchTasks = async () => {
             try{
@@ -26,8 +29,13 @@ export default function TasksPage() {
             }
         }
 
-        checkLogin();
-        fetchTasks();
+        // 即時実行
+        (async () => {
+            const isLogin = await checkLogin();
+            if (isLogin) {
+                await fetchTasks();
+            }
+        })();
     },[router]);
 
     const handleAddTask = () => {
@@ -47,7 +55,7 @@ export default function TasksPage() {
                     </li>
                 ))}
             </ul>
-            <button type="button" onSubmit={handleAddTask}>タスクを追加</button>
+            <button type="button" onClick={handleAddTask}>タスクを追加</button>
         </>
     );
 }
