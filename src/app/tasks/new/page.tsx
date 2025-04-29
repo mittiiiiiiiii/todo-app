@@ -32,6 +32,12 @@ export default function TasksnewPage(){
         console.log('タスクを作成するよー');
         e.preventDefault();
         // ここにdbにタスクを保存するapi
+        console.log({
+            title,
+            description,
+            date,
+            status
+        });
     }
 
     const handleCancel = () => {
