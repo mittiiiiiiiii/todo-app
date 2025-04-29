@@ -51,6 +51,7 @@ export default function TasksnewPage(){
 
             const response= await axios.post('/api/tasks/new', {postData});
             console.log('タスクを保存しました',response.data);
+            router.push('/tasks');
         }catch(error){
             console.log('タスクの保存に失敗しました',error);
         }
