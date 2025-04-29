@@ -53,7 +53,7 @@ export default function TasksnewPage(){
                 </div>
                 <div>
                     <label htmlFor="date">締め切り</label>
-                    <input id="date" type='text' value={date} onChange={e => setDate(e.target.value)} placeholder='締め切り日' required/>
+                    <input id="date" type='date' value={date} onChange={e => setDate(e.target.value)} required/>
                 </div>
                 <div>
                     <label htmlFor="status">ステータス</label>
