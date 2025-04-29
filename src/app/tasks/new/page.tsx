@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 export default function TasksnewPage(){
     const router = useRouter();
     const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [date, setDate] = useState('');
 
     useEffect(() => {
         const checkLogin = async () => {
@@ -26,9 +28,14 @@ export default function TasksnewPage(){
     },[router]);
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-        console.log('タスクを追加するボタンが押されたよー');
+        console.log('タスクを作成するよー');
         e.preventDefault();
         // ここにdbにタスクを保存するapi
+    }
+
+    const handleCancel = () => {
+        console.log('キャンセルボタンが押されたよー');
+        router.push('/tasks');
     }
 
     return (
@@ -37,8 +44,18 @@ export default function TasksnewPage(){
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="title">タイトル（必須）</label>
-                    <input id="title" type='text' value={title} onChange={e => setTitle(e.target.value)} required/>
+                    <input id="title" type='text' value={title} onChange={e => setTitle(e.target.value)} placeholder='タイトル' required/>
                 </div>
+                <div>
+                    <label htmlFor="description">詳細</label>
+                    <input id="description" type='text' value={description} onChange={e => setDescription(e.target.value)} placeholder='詳細' required/>
+                </div>
+                <div>
+                    <label htmlFor="date">締め切り</label>
+                    <input id="date" type='text' value={date} onChange={e => setDate(e.target.value)} placeholder='締め切り日' required/>
+                </div>
+                <button type="submit">保存</button>
+                <button type="button" onClick={handleCancel}>キャンセル</button>
             </form>
         </>
     );
