@@ -1,11 +1,14 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import axios from 'axios';
 
-export default function TasksnewPage(){
+export default function EditTaskPage() {
     const router = useRouter();
+    const params = useParams();
+    const id = params.id as string;
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
@@ -22,15 +25,33 @@ export default function TasksnewPage(){
             }
             return JSON.parse(user);
         };
+        const fetchTask = async (taskId: number) => {
+            try{
+                const res = await axios.get('/api/tasks/edit', {params: { taskId } });
+                console.log("タスクの取得に成功", res.data);
+
+                // 値をセット
+                const task = res.data.tasks[0];
+                if (task) {
+                    setTitle(task.title||'');
+                    setDescription(task.description||'');
+                    setDate(task.dueDate ? task.dueDate.slice(0,10):'');
+                    setStatus(task.status||'not_started');
+                }
+            }catch(error){
+                console.log('タスクの取得に失敗しました',error);
+            }
+        }
 
         // 即時実行
         (async () => {
             await checkLogin();
+            await fetchTask(Number(id));
         })();
-    },[router]);
+    },[router,id]);
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-        console.log('タスクを作成するよー');
+        console.log('タスクを編集するよー');
         e.preventDefault();
         // ここにdbにタスクを保存するapi
         console.log({
@@ -47,10 +68,11 @@ export default function TasksnewPage(){
                 dueDate: date ? new Date(date) : null,
                 status,
                 userId: user.id,
+                taskId: Number(id),
             }
 
-            const response= await axios.post('/api/tasks/new', {postData});
-            console.log('タスクを保存しました',response.data);
+            const response= await axios.post('/api/tasks/edit', {postData});
+            console.log('タスクを編集して保存しました',response.data);
             router.push('/tasks');
         }catch(error){
             console.log('タスクの保存に失敗しました',error);
@@ -64,7 +86,7 @@ export default function TasksnewPage(){
 
     return (
         <>
-            <h1>タスク追加ページ</h1>
+            <h1>タスク編集ページ</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="title">タイトル（必須）</label>
@@ -89,5 +111,5 @@ export default function TasksnewPage(){
                 <button type="button" onClick={handleCancel}>キャンセル</button>
             </form>
         </>
-    );
+    )
 }

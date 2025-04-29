@@ -42,7 +42,36 @@ export default function TasksPage() {
     const handleAddTask = () => {
         console.log('タスクを追加するボタンが押されたよー');
         router.push('/tasks/new');
-        // ここに追加ページに移動する処理を書く
+    }
+
+    const handledeleteTask = async (taskId: number) => {
+        console.log('タスクを削除するボタンが押されたよー');
+        try{
+            // ここにdbからタスクを削除するapi
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                console.log('ユーザー情報が取得できません');
+                return;
+            }
+            const user = JSON.parse(userStr);
+            const response = await axios.post('/api/tasks/delete',{
+                userId: user.id,
+                taskId: taskId
+            });
+            console.log('タスクを削除しました', response.data);
+            setTasks(tasks.filter(task => task.id !== taskId));
+        }catch(error){
+            console.log('タスクの削除に失敗しました',error);
+        }
+    }
+
+    const handleeditTask = async (taskId: number) => {
+        console.log('タスクを編集するボタンが押されたよー');
+        try{
+            router.push(`/tasks/${taskId}/edit`);
+        }catch(error){
+            console.log('タスクの編集に失敗しました',error);
+        }
     }
 
     return(
@@ -52,8 +81,8 @@ export default function TasksPage() {
             {tasks.map(task => (
                     <li key={task.id}>
                         <span>{task.title}（{task.status}）{task.description && ` 詳細: ${task.description}`} {task.dueDate && ` 締切: ${task.dueDate}`}</span>
-                        <button type="button">編集</button>
-                        <button type="button">削除</button>
+                        <button type="button" onClick={() => handleeditTask(task.id)}>編集</button>
+                        <button type="button" onClick={() => handledeleteTask(task.id)}>削除</button>
                     </li>
                 ))}
             </ul>
