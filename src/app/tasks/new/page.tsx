@@ -40,12 +40,16 @@ export default function TasksnewPage(){
             status
         });
         try{
-            const response= await axios.post('/api/tasks/new', {
+            const user = JSON.parse(localStorage.getItem('user')||'{}');
+            const postData = {
                 title,
                 description,
-                date,
-                status
-            });
+                dueDate: date ? new Date(date) : null,
+                status,
+                userId: user.id,
+            }
+
+            const response= await axios.post('/api/tasks/new', {postData});
             console.log('タスクを保存しました',response.data);
         }catch(error){
             console.log('タスクの保存に失敗しました',error);
