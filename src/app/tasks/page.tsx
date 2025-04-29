@@ -48,7 +48,18 @@ export default function TasksPage() {
         console.log('タスクを削除するボタンが押されたよー');
         try{
             // ここにdbからタスクを削除するapi
-            const response = await axios.get('/api/tasks/delete',{data:{ taskId }});
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                console.log('ユーザー情報が取得できません');
+                return;
+            }
+            const user = (JSON.parse(userStr)).id;
+            const response = await axios.post('/api/tasks/delete',{
+                data:{
+                    userId: user.id,
+                    taskId: taskId
+                }
+            });
             console.log('タスクを削除しました', response.data);
         }catch(error){
             console.log('タスクの削除に失敗しました',error);
