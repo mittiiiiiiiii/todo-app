@@ -53,14 +53,13 @@ export default function TasksPage() {
                 console.log('ユーザー情報が取得できません');
                 return;
             }
-            const user = (JSON.parse(userStr)).id;
+            const user = JSON.parse(userStr);
             const response = await axios.post('/api/tasks/delete',{
-                data:{
-                    userId: user.id,
-                    taskId: taskId
-                }
+                userId: user.id,
+                taskId: taskId
             });
             console.log('タスクを削除しました', response.data);
+            setTasks(tasks.filter(task => task.id !== taskId));
         }catch(error){
             console.log('タスクの削除に失敗しました',error);
         }
