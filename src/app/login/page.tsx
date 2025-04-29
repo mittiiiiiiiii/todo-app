@@ -19,6 +19,7 @@ export default function LoginPage() {
                 password
             });
             console.log('ログインに成功しました',response.data);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
             router.push('/tasks');
         }catch (error) {
             console.log('ログインに失敗しました',error);
