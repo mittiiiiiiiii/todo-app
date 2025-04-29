@@ -41,6 +41,7 @@ export default function TasksPage() {
 
     const handleAddTask = () => {
         console.log('タスクを追加するボタンが押されたよー');
+        router.push('/tasks/new');
         // ここに追加ページに移動する処理を書く
     }
 
