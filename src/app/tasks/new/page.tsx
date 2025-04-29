@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function TasksnewPage(){
     const router = useRouter();
@@ -38,6 +39,17 @@ export default function TasksnewPage(){
             date,
             status
         });
+        try{
+            const response= await axios.post('/api/tasks/new', {
+                title,
+                description,
+                date,
+                status
+            });
+            console.log('タスクを保存しました',response.data);
+        }catch(error){
+            console.log('タスクの保存に失敗しました',error);
+        }
     }
 
     const handleCancel = () => {
