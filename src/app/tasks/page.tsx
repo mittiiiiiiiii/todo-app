@@ -51,7 +51,7 @@ export default function TasksPage() {
             <ul>
             {tasks.map(task => (
                     <li key={task.id}>
-                        <span>{task.title}（{task.status}）{task.dueDate && ` 締切: ${task.dueDate}`}</span>
+                        <span>{task.title}（{task.status}）{task.description && ` 詳細: ${task.description}`} {task.dueDate && ` 締切: ${task.dueDate}`}</span>
                         <button type="button">編集</button>
                         <button type="button">削除</button>
                     </li>
