@@ -65,6 +65,10 @@ export default function TasksPage() {
         }
     }
 
+    const handleeditTask = async (taskId: number) => {
+        console.log('タスクを編集するボタンが押されたよー');
+    }
+
     return(
         <>
             <h1>タスク一覧ページ</h1>
@@ -72,7 +76,7 @@ export default function TasksPage() {
             {tasks.map(task => (
                     <li key={task.id}>
                         <span>{task.title}（{task.status}）{task.description && ` 詳細: ${task.description}`} {task.dueDate && ` 締切: ${task.dueDate}`}</span>
-                        <button type="button">編集</button>
+                        <button type="button" onClick={() => handleeditTask(task.id)}>編集</button>
                         <button type="button" onClick={() => handledeleteTask(task.id)}>削除</button>
                     </li>
                 ))}
