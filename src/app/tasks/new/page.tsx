@@ -8,6 +8,7 @@ export default function TasksnewPage(){
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
+    const [status, setStatus] = useState<'not_started'|'in_progress'>('not_started');
 
     useEffect(() => {
         const checkLogin = async () => {
@@ -53,6 +54,13 @@ export default function TasksnewPage(){
                 <div>
                     <label htmlFor="date">締め切り</label>
                     <input id="date" type='text' value={date} onChange={e => setDate(e.target.value)} placeholder='締め切り日' required/>
+                </div>
+                <div>
+                    <label htmlFor="status">ステータス</label>
+                    <select id="status" value={status} onChange={e => setStatus(e.target.value as 'not_started'|'in_progress')} required>
+                        <option value="not_started">未着手</option>
+                        <option value="in_progress">進行中</option>
+                    </select>
                 </div>
                 <button type="submit">保存</button>
                 <button type="button" onClick={handleCancel}>キャンセル</button>
