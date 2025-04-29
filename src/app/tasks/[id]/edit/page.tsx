@@ -68,6 +68,7 @@ export default function EditTaskPage() {
                 dueDate: date ? new Date(date) : null,
                 status,
                 userId: user.id,
+                taskId: Number(id),
             }
 
             const response= await axios.post('/api/tasks/edit', {postData});
