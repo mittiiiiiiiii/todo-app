@@ -67,6 +67,11 @@ export default function TasksPage() {
 
     const handleeditTask = async (taskId: number) => {
         console.log('タスクを編集するボタンが押されたよー');
+        try{
+            router.push(`/tasks/${taskId}/edit`);
+        }catch(error){
+            console.log('タスクの編集に失敗しました',error);
+        }
     }
 
     return(
