@@ -26,6 +26,14 @@ export default function ProfilePage() {
             try{
                 const res = await axios.get('/api/profile', {params: { userId } });
                 console.log("ユーザーの取得に成功", res.data);
+
+                // 値をセット
+                const user = res.data.user[0];
+                if (user) {
+                    setName(user.name||'');
+                    setEmail(user.email||'');
+                    setPassword(user.password||'');
+                }
             }catch(error){
                 console.log('ユーザー情報の取得に失敗しました',error);
             }

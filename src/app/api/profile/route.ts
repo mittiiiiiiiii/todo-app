@@ -8,12 +8,12 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
     try {
-        const tasks = await prisma.tasks.findMany({
+        const user = await prisma.user.findMany({
             where: {
-                userId:Number(userId)
+                id:Number(userId)
             }
         })
-        return NextResponse.json({ tasks },{ status: 200 })
+        return NextResponse.json({ user },{ status: 200 })
     } catch (error) {
         console.log('取得エラー:', error);
         return NextResponse.json({
