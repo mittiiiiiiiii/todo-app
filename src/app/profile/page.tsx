@@ -1,18 +1,26 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { FormData } from '@/app/types/user';
+import { schema } from '@/app/types/user';
 
 export default function ProfilePage() {
     const router = useRouter();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
+        resolver: zodResolver(schema),
+        defaultValues: {
+            name: '',
+            email: '',
+            password: '',
+        }
+    });
 
     useEffect(() => {
         const checkLogin = async () => {
-            // localStorageにuser情報がなければ未ログインとみなす
             const user = localStorage.getItem('user');
             if (!user) {
                 console.log('ログインしていないのでログインページにリダイレクト');
@@ -27,12 +35,11 @@ export default function ProfilePage() {
                 const res = await axios.get('/api/profile', {params: { userId } });
                 console.log("ユーザーの取得に成功", res.data);
 
-                // 値をセット
                 const user = res.data.user[0];
                 if (user) {
-                    setName(user.name||'');
-                    setEmail(user.email||'');
-                    setPassword(user.password||'');
+                    setValue('name', user.name || '');
+                    setValue('email', user.email || '');
+                    setValue('password', user.password || '');
                 }
             }catch(error){
                 console.log('ユーザー情報の取得に失敗しました',error);
@@ -41,20 +48,21 @@ export default function ProfilePage() {
        
         (async () => {
             const user = await checkLogin();
-            await fetchUser(user.id);
+            if (user) {
+                await fetchUser(user.id);
+            }
         })();
-    },[router]);
+    },[router, setValue]);
 
-    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async(data: FormData) => {
         console.log('ボタンが押されたよー');
-        e.preventDefault();
         const user = JSON.parse(localStorage.getItem('user')||'{}');
         try{
             const response= await axios.post('/api/profile', {
                 userId: user.id,
-                name,
-                email,
-                password
+                name: data.name,
+                email: data.email,
+                password: data.password
             });
             console.log('編集に成功しました',response.data);
             router.push('/tasks');
@@ -66,10 +74,13 @@ export default function ProfilePage() {
     return(
         <>
             <h1>プロフィール編集</h1>
-            <form onSubmit={handleSubmit}>
-                <input type='text' value={name} onChange={e => setName(e.target.value)} placeholder='名前' required/>
-                <input type='text' value={email} onChange={e=> setEmail(e.target.value)} placeholder='メールアドレス' required/>
-                <input type='text' value={password} onChange={e=> setPassword(e.target.value)} placeholder='パスワード' required/>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <input type='text' {...register('name')} placeholder='名前' />
+                {errors.name && <span style={{color:'red'}}>{errors.name.message}</span>}
+                <input type='text' {...register('email')} placeholder='メールアドレス' />
+                {errors.email && <span style={{color:'red'}}>{errors.email.message}</span>}
+                <input type='text' {...register('password')} placeholder='パスワード' />
+                {errors.password && <span style={{color:'red'}}>{errors.password.message}</span>}
                 <button type='submit'>登録</button>
             </form>
             <p>ログインページは<a href='/login'>こちら</a></p>
