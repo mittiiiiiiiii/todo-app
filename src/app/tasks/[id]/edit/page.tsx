@@ -4,17 +4,9 @@ import { useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-const schema = z.object({
-    title: z.string().min(1, 'タイトルは必須です'),
-    description: z.string(),
-    date: z.string(),
-    status: z.enum(['not_started','in_progress','completed']),
-});
-
-type FormData = z.infer<typeof schema>;
+import type { FormData } from '@/app/types/tasks';
+import { schema } from '@/app/types/tasks';
 
 export default function EditTaskPage() {
     const router = useRouter();
