@@ -9,9 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 const schema = z.object({
     title: z.string().min(1, 'タイトルは必須です'),
-    description: z.string().min(1, '詳細は必須です'),
-    date: z.string().min(1, '締め切りは必須です'),
-    status: z.enum(['not_started', 'in_progress']),
+    description: z.string(),
+    date: z.string(),
+    status: z.enum(['not_started','in_progress','completed']),
 });
 
 type FormData = z.infer<typeof schema>;
