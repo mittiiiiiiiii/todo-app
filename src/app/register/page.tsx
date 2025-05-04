@@ -1,42 +1,67 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import axios from 'axios';
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { FormData } from "@/app/types/user";
+import { schema } from "@/app/types/user";
 
 export default function RegistePage() {
-    const router = useRouter();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+	const router = useRouter();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<FormData>({
+		resolver: zodResolver(schema),
+		defaultValues: {
+			name: "",
+			email: "",
+			password: "",
+		},
+	});
 
-    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-        console.log('ボタンが押されたよー');
-        e.preventDefault();
-        // ここにdbにユーザーを保存するapi
-        try{
-            const response= await axios.post('/api/register', {
-                name,
-                email,
-                password
-            });
-            console.log('登録に成功しました',response.data);
-            router.push('/login');
-        }catch (error) {
-            console.log('登録に失敗しました',error);
-        }
-    }
+	const onSubmit = async (data: FormData) => {
+		console.log("ボタンが押されたよー");
+		try {
+			const response = await axios.post("/api/register", {
+				name: data.name,
+				email: data.email,
+				password: data.password,
+			});
+			console.log("登録に成功しました", response.data);
+			router.push("/login");
+		} catch (error) {
+			console.log("登録に失敗しました", error);
+		}
+	};
 
-    return (
-        <>
-            <h1>ユーザー登録ページ</h1>
-            <form onSubmit={handleSubmit}>
-                <input type='text' value={name} onChange={e => setName(e.target.value)} placeholder='名前' required/>
-                <input type='text' value={email} onChange={e=> setEmail(e.target.value)} placeholder='メールアドレス' required/>
-                <input type='text' value={password} onChange={e=> setPassword(e.target.value)} placeholder='パスワード' required/>
-                <button type='submit'>登録</button>
-            </form>
-            <p>ログインページは<a href='/login'>こちら</a></p>
-        </>
-    );
+	return (
+		<>
+			<h1>ユーザー登録ページ</h1>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<input type="text" {...register("name")} placeholder="名前" />
+				{errors.name && (
+					<span style={{ color: "red" }}>{errors.name.message}</span>
+				)}
+				<input
+					type="text"
+					{...register("email")}
+					placeholder="メールアドレス"
+				/>
+				{errors.email && (
+					<span style={{ color: "red" }}>{errors.email.message}</span>
+				)}
+				<input type="text" {...register("password")} placeholder="パスワード" />
+				{errors.password && (
+					<span style={{ color: "red" }}>{errors.password.message}</span>
+				)}
+				<button type="submit">登録</button>
+			</form>
+			<p>
+				ログインページは<a href="/login">こちら</a>
+			</p>
+		</>
+	);
 }
