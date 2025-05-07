@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import type { Tasks } from "../types/tasks";
+import { trpc } from "@/utils/trpc";
 
 export default function TasksPage() {
 	const [tasks, setTasks] = useState<Tasks[]>([]);
 	const router = useRouter();
+	const deleteTaskMutation = trpc.deleteTask.useMutation();
 
 	useEffect(() => {
 		const checkLogin = async () => {
@@ -54,11 +56,11 @@ export default function TasksPage() {
 				return;
 			}
 			const user = JSON.parse(userStr);
-			const response = await axios.post("/api/tasks/delete", {
+			const response = await deleteTaskMutation.mutateAsync({
 				userId: user.id,
 				taskId: taskId,
 			});
-			console.log("タスクを削除しました", response.data);
+			console.log("タスクを削除しました", response);
 			setTasks(tasks.filter((task) => task.id !== taskId));
 		} catch (error) {
 			console.log("タスクの削除に失敗しました", error);
