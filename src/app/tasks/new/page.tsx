@@ -2,14 +2,17 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+// import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FormData } from "@/app/types/tasks";
 import { schema } from "@/app/types/tasks";
+import { trpc } from "@/utils/trpc";
+import type { Status } from "@prisma/client";
 
 export default function TasksnewPage() {
 	const router = useRouter();
+	const createTaskMutation = trpc.createTask.useMutation();
 	const {
 		register,
 		handleSubmit,
@@ -46,16 +49,15 @@ export default function TasksnewPage() {
 		console.log("タスクを作成するよー");
 		try {
 			const user = JSON.parse(localStorage.getItem("user") || "{}");
-			const postData = {
+
+			const response = await createTaskMutation.mutateAsync({
 				title: data.title,
 				description: data.description,
-				dueDate: data.date ? new Date(data.date) : null,
-				status: data.status,
+				dueDate: data.date,
+				status: data.status as Status,
 				userId: user.id,
-			};
-
-			const response = await axios.post("/api/tasks/new", { postData });
-			console.log("タスクを保存しました", response.data);
+			});
+			console.log("タスクを保存しました", response);
 			router.push("/tasks");
 		} catch (error) {
 			console.log("タスクの保存に失敗しました", error);
