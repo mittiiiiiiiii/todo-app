@@ -1,4 +1,5 @@
 import ProfileButton from "./components/profile";
+import { TRPCProvider } from '@/utils/trpcProvider';
 
 export const metadata = {
 	title: "Next.js",
@@ -13,8 +14,10 @@ export default function RootLayout({
 	return (
 		<html lang="ja">
 			<body>
-				<ProfileButton />
-				{children}
+				<TRPCProvider>
+					<ProfileButton />
+					{children}
+				</TRPCProvider>
 			</body>
 		</html>
 	);

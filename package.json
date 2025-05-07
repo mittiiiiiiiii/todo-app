@@ -14,6 +14,7 @@
 	"dependencies": {
 		"@hookform/resolvers": "^5.0.1",
 		"@prisma/client": "^6.7.0",
+		"@tanstack/react-query": "^5.75.4",
 		"@trpc/client": "^11.1.2",
 		"@trpc/next": "^11.1.2",
 		"@trpc/react-query": "^11.1.2",

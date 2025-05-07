@@ -1,14 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FormData } from "@/app/types/user";
 import { schema } from "@/app/types/user";
+import { trpc } from "@/utils/trpc";
 
 export default function RegistePage() {
 	const router = useRouter();
+	const registerMutation = trpc.register.useMutation();
 	const {
 		register,
 		handleSubmit,
@@ -25,12 +26,12 @@ export default function RegistePage() {
 	const onSubmit = async (data: FormData) => {
 		console.log("ボタンが押されたよー");
 		try {
-			const response = await axios.post("/api/register", {
+			 const response =await registerMutation.mutateAsync({
 				name: data.name,
 				email: data.email,
 				password: data.password,
 			});
-			console.log("登録に成功しました", response.data);
+			console.log("登録に成功しました", response);
 			router.push("/login");
 		} catch (error) {
 			console.log("登録に失敗しました", error);
