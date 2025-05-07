@@ -47,14 +47,14 @@ export default function RegistePage() {
 					<span style={{ color: "red" }}>{errors.name.message}</span>
 				)}
 				<input
-					type="text"
+					type="email"
 					{...register("email")}
 					placeholder="メールアドレス"
 				/>
 				{errors.email && (
 					<span style={{ color: "red" }}>{errors.email.message}</span>
 				)}
-				<input type="text" {...register("password")} placeholder="パスワード" />
+				<input type="password" {...register("password")} placeholder="パスワード" />
 				{errors.password && (
 					<span style={{ color: "red" }}>{errors.password.message}</span>
 				)}

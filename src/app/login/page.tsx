@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { FormData } from "@/app/types/user";
-import { schema } from "@/app/types/user";
+import type { FormData } from "@/app/types/login";
+import { schema } from "@/app/types/login";
 
 export default function LoginPage() {
 	const router = useRouter();
@@ -18,7 +18,6 @@ export default function LoginPage() {
 		defaultValues: {
 			email: "",
 			password: "",
-			name: "",
 		},
 	});
 
@@ -40,16 +39,16 @@ export default function LoginPage() {
 	return (
 		<>
 			<h1>ログインページ</h1>
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form onSubmit={handleSubmit(onSubmit)} noValidate>
 				<input
-					type="text"
+					type="email"
 					{...register("email")}
 					placeholder="メールアドレス"
 				/>
 				{errors.email && (
 					<span style={{ color: "red" }}>{errors.email.message}</span>
 				)}
-				<input type="text" {...register("password")} placeholder="パスワード" />
+				<input type="password" {...register("password")} placeholder="パスワード" />
 				{errors.password && (
 					<span style={{ color: "red" }}>{errors.password.message}</span>
 				)}
