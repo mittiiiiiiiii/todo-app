@@ -1,14 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import axios from "axios";
+// import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { FormData } from "@/app/types/user";
-import { schema } from "@/app/types/user";
+import type { FormData } from "@/app/types/login";
+import { schema } from "@/app/types/login";
+import { trpc } from "@/utils/trpc";
 
 export default function LoginPage() {
 	const router = useRouter();
+	const loginMutation = trpc.login.useMutation();
 	const {
 		register,
 		handleSubmit,
@@ -18,19 +20,18 @@ export default function LoginPage() {
 		defaultValues: {
 			email: "",
 			password: "",
-			name: "",
 		},
 	});
 
 	const onSubmit = async (data: FormData) => {
 		console.log("ボタンが押されたよー");
 		try {
-			const response = await axios.post("/api/login", {
+			const response = await loginMutation.mutateAsync({
 				email: data.email,
 				password: data.password,
 			});
-			console.log("ログインに成功しました", response.data);
-			localStorage.setItem("user", JSON.stringify(response.data.user));
+			console.log("ログインに成功しました", response);
+			localStorage.setItem("user", JSON.stringify(response));
 			router.push("/tasks");
 		} catch (error) {
 			console.log("ログインに失敗しました", error);
@@ -40,16 +41,16 @@ export default function LoginPage() {
 	return (
 		<>
 			<h1>ログインページ</h1>
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form onSubmit={handleSubmit(onSubmit)} noValidate>
 				<input
-					type="text"
+					type="email"
 					{...register("email")}
 					placeholder="メールアドレス"
 				/>
 				{errors.email && (
 					<span style={{ color: "red" }}>{errors.email.message}</span>
 				)}
-				<input type="text" {...register("password")} placeholder="パスワード" />
+				<input type="password" {...register("password")} placeholder="パスワード" />
 				{errors.password && (
 					<span style={{ color: "red" }}>{errors.password.message}</span>
 				)}
