@@ -14,14 +14,19 @@
 	"dependencies": {
 		"@hookform/resolvers": "^5.0.1",
 		"@prisma/client": "^6.7.0",
+		"@trpc/client": "^11.1.2",
+		"@trpc/next": "^11.1.2",
+		"@trpc/react-query": "^11.1.2",
+		"@trpc/server": "^11.1.2",
 		"axios": "^1.8.4",
 		"next": "15.3.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-hook-form": "^7.56.2",
-		"zod": "^3.24.3"
+		"zod": "^3.24.4"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^1.4.1",
 		"@commitlint/cli": "^19.8.0",
 		"@commitlint/config-conventional": "^19.8.0",
 		"@eslint/eslintrc": "^3",
@@ -34,7 +39,6 @@
 		"husky": "^9.1.7",
 		"prisma": "^6.7.0",
 		"tailwindcss": "^4",
-		"typescript": "^5",
-		"@biomejs/biome": "^1.4.1"
+		"typescript": "^5"
 	}
 }
