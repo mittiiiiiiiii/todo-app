@@ -1,17 +1,26 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import axios from "axios";
+// import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FormData } from "@/app/types/tasks";
 import { schema } from "@/app/types/tasks";
+import { trpc } from "@/utils/trpc";
+import type { Status } from "@prisma/client";
 
 export default function EditTaskPage() {
 	const router = useRouter();
 	const params = useParams();
 	const id = params.id as string;
+	const editTaskMutation = trpc.editTask.useMutation();
+	// useQueryをenabled: falseで初期化
+    const [userId, setUserId] = useState<number | null>(null);
+	const getTasksQuery = trpc.getTasks.useQuery(
+        { userId: userId ?? 0 },
+        { enabled: false }
+    );
 
 	const {
 		register,
@@ -29,53 +38,54 @@ export default function EditTaskPage() {
 	});
 
 	useEffect(() => {
-		const checkLogin = async () => {
-			const user = localStorage.getItem("user");
-			if (!user) {
-				console.log("ログインしていないのでログインページにリダイレクト");
-				router.push("/login");
-				return null;
-			}
-			return JSON.parse(user);
-		};
-		const fetchTask = async (taskId: number) => {
-			try {
-				const res = await axios.get("/api/tasks/edit", { params: { taskId } });
-				console.log("タスクの取得に成功", res.data);
+        const user = localStorage.getItem("user");
+        if (!user) {
+            console.log("ログインしていないのでログインページにリダイレクト");
+            router.push("/login");
+            return;
+        }
+        const parsed = JSON.parse(user);
+        setUserId(parsed.id);
+    }, [router]);
 
-				const task = res.data.tasks[0];
-				if (task) {
-					setValue("title", task.title || "");
-					setValue("description", task.description || "");
-					setValue("date", task.dueDate ? task.dueDate.slice(0, 10) : "");
-					setValue("status", task.status || "not_started");
-				}
-			} catch (error) {
-				console.log("タスクの取得に失敗しました", error);
-			}
-		};
+    useEffect(() => {
+        const fetchTask = async (taskId: number) => {
+            if (!userId) return;
+            try {
+                const { data: tasks } = await getTasksQuery.refetch();
+                console.log("タスクの取得に成功", tasks);
 
-		(async () => {
-			await checkLogin();
-			await fetchTask(Number(id));
-		})();
-	}, [router, id, setValue]);
+                const task = tasks?.find((t) => t.id === taskId);
+                if (task) {
+                    setValue("title", task.title || "");
+                    setValue("description", task.description || "");
+                    setValue("date", task.dueDate ? task.dueDate.slice(0, 10) : "");
+                    setValue("status", task.status || "not_started");
+                }
+            } catch (error) {
+                console.log("タスクの取得に失敗しました", error);
+            }
+        };
+
+        if (userId) {
+            fetchTask(Number(id));
+        }
+    }, [userId, id, setValue,getTasksQuery]);
 
 	const onSubmit = async (data: FormData) => {
 		console.log("タスクを編集するよー");
 		try {
 			const user = JSON.parse(localStorage.getItem("user") || "{}");
-			const postData = {
-				title: data.title,
-				description: data.description,
-				dueDate: data.date ? new Date(data.date) : null,
-				status: data.status,
-				userId: user.id,
-				taskId: Number(id),
-			};
 
-			const response = await axios.post("/api/tasks/edit", { postData });
-			console.log("タスクを編集して保存しました", response.data);
+			const response = await editTaskMutation.mutateAsync({
+                title: data.title,
+                description: data.description,
+                dueDate: data.date,
+                status: data.status as Status,
+                userId: user.id,
+                taskId: Number(id),
+            });
+			console.log("タスクを編集して保存しました", response);
 			router.push("/tasks");
 		} catch (error) {
 			console.log("タスクの保存に失敗しました", error);
