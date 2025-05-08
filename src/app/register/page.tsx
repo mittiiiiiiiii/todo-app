@@ -39,30 +39,33 @@ export default function RegistePage() {
 	};
 
 	return (
-		<>
-			<h1>ユーザー登録ページ</h1>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<input type="text" {...register("name")} placeholder="名前" />
-				{errors.name && (
-					<span style={{ color: "red" }}>{errors.name.message}</span>
-				)}
-				<input
-					type="email"
-					{...register("email")}
-					placeholder="メールアドレス"
-				/>
-				{errors.email && (
-					<span style={{ color: "red" }}>{errors.email.message}</span>
-				)}
-				<input type="password" {...register("password")} placeholder="パスワード" />
-				{errors.password && (
-					<span style={{ color: "red" }}>{errors.password.message}</span>
-				)}
-				<button type="submit">登録</button>
-			</form>
-			<p>
-				ログインページは<a href="/login">こちら</a>
-			</p>
-		</>
+		<div className="login-container">
+			<div className="login-box">
+				<h1 className="login-title">ユーザー登録ページ</h1>
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<input type="text" {...register("name")} placeholder="名前" className="login-input"/>
+					{errors.name && (
+						<span className="login-error">{errors.name.message}</span>
+					)}
+					<input
+						type="email"
+						{...register("email")}
+						placeholder="メールアドレス"
+						className="login-input"
+					/>
+					{errors.email && (
+						<span className="login-error">{errors.email.message}</span>
+					)}
+					<input type="password" {...register("password")} placeholder="パスワード" className="login-input"/>
+					{errors.password && (
+						<span className="login-error">{errors.password.message}</span>
+					)}
+					<button type="submit" className="login-button">登録</button>
+				</form>
+				<p className="login-bottom-text">
+					ログインページは<a href="/login" className="login-link">こちら</a>
+				</p>
+			</div>
+		</div>
 	);
 }
