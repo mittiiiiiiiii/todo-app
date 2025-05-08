@@ -98,55 +98,61 @@ export default function EditTaskPage() {
 	};
 
 	return (
-		<>
-			<h1>タスク編集ページ</h1>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div>
-					<label htmlFor="title">タイトル（必須）</label>
-					<input
-						id="title"
-						type="text"
-						{...register("title")}
-						placeholder="タイトル"
-					/>
-					{errors.title && (
-						<span style={{ color: "red" }}>{errors.title.message}</span>
-					)}
-				</div>
-				<div>
-					<label htmlFor="description">詳細</label>
-					<input
-						id="description"
-						type="text"
-						{...register("description")}
-						placeholder="詳細"
-					/>
-					{errors.description && (
-						<span style={{ color: "red" }}>{errors.description.message}</span>
-					)}
-				</div>
-				<div>
-					<label htmlFor="date">締め切り</label>
-					<input id="date" type="date" {...register("date")} />
-					{errors.date && (
-						<span style={{ color: "red" }}>{errors.date.message}</span>
-					)}
-				</div>
-				<div>
-					<label htmlFor="status">ステータス</label>
-					<select id="status" {...register("status")}>
-						<option value="not_started">未着手</option>
-						<option value="in_progress">進行中</option>
-					</select>
-					{errors.status && (
-						<span style={{ color: "red" }}>{errors.status.message}</span>
-					)}
-				</div>
-				<button type="submit">保存</button>
-				<button type="button" onClick={handleCancel}>
-					キャンセル
-				</button>
-			</form>
-		</>
+		<div className="tasks-container">
+      <div className="tasks-box">
+        <h1 className="tasks-title">タスク編集ページ</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="tasks-form">
+          <div>
+            <label htmlFor="title" className="tasks-label">タイトル（必須）</label>
+            <input
+              id="title"
+              type="text"
+              {...register("title")}
+              placeholder="タイトル"
+              className="tasks-input"
+            />
+            {errors.title && (
+              <span className="form-error">{errors.title.message}</span>
+            )}
+          </div>
+          <div>
+            <label htmlFor="description" className="tasks-label">詳細</label>
+            <input
+              id="description"
+              type="text"
+              {...register("description")}
+              placeholder="詳細"
+              className="tasks-input"
+            />
+            {errors.description && (
+              <span className="form-error">{errors.description.message}</span>
+            )}
+          </div>
+          <div>
+            <label htmlFor="date" className="tasks-label">締め切り</label>
+            <input id="date" type="date" {...register("date")} className="tasks-input" />
+            {errors.date && (
+              <span className="form-error">{errors.date.message}</span>
+            )}
+          </div>
+          <div>
+            <label htmlFor="status" className="tasks-label">ステータス</label>
+            <select id="status" {...register("status")}
+              className="tasks-input">
+              <option value="not_started">未着手</option>
+              <option value="in_progress">進行中</option>
+              <option value="completed">完了</option>
+            </select>
+            {errors.status && (
+              <span className="form-error">{errors.status.message}</span>
+            )}
+          </div>
+          <div className="flex gap-2 mt-4">
+            <button type="submit" className="tasks-add-btn">保存</button>
+            <button type="button" onClick={handleCancel} className="tasks-add-btn tasks-cancel-btn">キャンセル</button>
+          </div>
+        </form>
+      </div>
+    </div>
 	);
 }
