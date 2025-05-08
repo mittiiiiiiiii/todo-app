@@ -39,9 +39,9 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="login-container">
-			<div className="login-box">
-				<h1 className="login-title">ログインページ</h1>
+		<div className="form-container">
+			<div className="form-box">
+				<h1 className="page-title">ログインページ</h1>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					noValidate
@@ -50,10 +50,10 @@ export default function LoginPage() {
 						type="email"
 						{...register("email")}
 						placeholder="メールアドレス"
-						className="login-input"
+						className="form-input"
 					/>
 					{errors.email && (
-						<span className="login-error">
+						<span className="form-error">
 							{errors.email.message}
 						</span>
 					)}
@@ -61,25 +61,25 @@ export default function LoginPage() {
 						type="password"
 						{...register("password")}
 						placeholder="パスワード"
-						className="login-input"
+						className="form-input"
 					/>
 					{errors.password && (
-						<span className="login-error">
+						<span className="form-error">
 							{errors.password.message}
 						</span>
 					)}
 					<button
 						type="submit"
-						className="login-button"
+						className="form-button"
 					>
 						ログイン
 					</button>
 				</form>
-				<p className="login-bottom-text">
+				<p className="form-bottom-text">
 					アカウントをお持ちでない方は
 					<a
 						href="/register"
-						className="login-link"
+						className="navigation-link"
 					>
 						こちら
 					</a>

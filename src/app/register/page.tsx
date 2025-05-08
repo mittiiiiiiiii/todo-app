@@ -39,31 +39,31 @@ export default function RegistePage() {
 	};
 
 	return (
-		<div className="login-container">
-			<div className="login-box">
-				<h1 className="login-title">ユーザー登録ページ</h1>
+		<div className="form-container">
+			<div className="form-box">
+				<h1 className="page-title">ユーザー登録ページ</h1>
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<input type="text" {...register("name")} placeholder="名前" className="login-input"/>
+					<input type="text" {...register("name")} placeholder="名前" className="form-input"/>
 					{errors.name && (
-						<span className="login-error">{errors.name.message}</span>
+						<span className="form-error">{errors.name.message}</span>
 					)}
 					<input
 						type="email"
 						{...register("email")}
 						placeholder="メールアドレス"
-						className="login-input"
+						className="form-input"
 					/>
 					{errors.email && (
-						<span className="login-error">{errors.email.message}</span>
+						<span className="form-error">{errors.email.message}</span>
 					)}
-					<input type="password" {...register("password")} placeholder="パスワード" className="login-input"/>
+					<input type="password" {...register("password")} placeholder="パスワード" className="form-input"/>
 					{errors.password && (
-						<span className="login-error">{errors.password.message}</span>
+						<span className="form-error">{errors.password.message}</span>
 					)}
-					<button type="submit" className="login-button">登録</button>
+					<button type="submit" className="form-button">登録</button>
 				</form>
-				<p className="login-bottom-text">
-					ログインページは<a href="/login" className="login-link">こちら</a>
+				<p className="form-bottom-text">
+					ログインページは<a href="/login" className="navigation-link">こちら</a>
 				</p>
 			</div>
 		</div>

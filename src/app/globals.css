@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 /* ログインページ用グローバルCSS */
-.login-container {
+.form-container {
   display: flex;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
   background-color: #f9fafb;
 }
-.login-box {
+.form-box {
   width: 100%;
   max-width: 28rem;
   background: #fff;
@@ -18,13 +18,13 @@
   border-radius: 0.5rem;
   box-shadow: 0 1px 6px 0 rgba(0,0,0,0.08);
 }
-.login-title {
+.page-title {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
   text-align: center;
 }
-.login-input {
+.form-input {
   width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid #d1d5db;
@@ -33,16 +33,16 @@
   margin-bottom: 0.25rem;
   transition: box-shadow 0.2s;
 }
-.login-input:focus {
+.form-input:focus {
   border-color: #60a5fa;
   box-shadow: 0 0 0 2px #bfdbfe;
 }
-.login-error {
+.form-error {
   color: #ef4444;
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
 }
-.login-button {
+.form-button {
   width: 100%;
   background: #3b82f6;
   color: #fff;
@@ -54,18 +54,18 @@
   margin-top: 0.5rem;
   cursor: pointer;
 }
-.login-button:hover {
+.form-button:hover {
   background: #2563eb;
 }
-.login-link {
+.navigation-link {
   color: #2563eb;
   text-decoration: underline;
   margin-left: 0.25rem;
 }
-.login-link:hover {
+.navigation-link:hover {
   color: #1d4ed8;
 }
-.login-bottom-text {
+.form-bottom-text {
   margin-top: 1rem;
   text-align: center;
   font-size: 0.875rem;
