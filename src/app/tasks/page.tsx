@@ -77,28 +77,44 @@ export default function TasksPage() {
 	};
 
 	return (
-		<>
-			<h1>タスク一覧ページ</h1>
-			<ul>
-				{tasks.map((task) => (
-					<li key={task.id}>
-						<span>
-							{task.title}（{task.status}）
-							{task.description && ` 詳細: ${task.description}`}{" "}
-							{task.dueDate && ` 締切: ${task.dueDate}`}
-						</span>
-						<button type="button" onClick={() => handleeditTask(task.id)}>
-							編集
-						</button>
-						<button type="button" onClick={() => handledeleteTask(task.id)}>
-							削除
-						</button>
-					</li>
-				))}
-			</ul>
-			<button type="button" onClick={handleAddTask}>
-				タスクを追加
-			</button>
-		</>
+		<div className="tasks-container">
+            <div className="tasks-box">
+                <h1 className="tasks-title">タスク一覧ページ</h1>
+                <ul className="tasks-list">
+                    {tasks.map((task) => (
+                        <li key={task.id} className="tasks-list-item">
+                            <span className="tasks-list-text">
+                                {task.title}（{task.status}）
+                                {task.description && ` 詳細: ${task.description}`}{" "}
+                                {task.dueDate && ` 締切: ${task.dueDate}`}
+                            </span>
+                            <div className="tasks-list-actions">
+                                <button
+                                    type="button"
+                                    onClick={() => handleeditTask(task.id)}
+                                    className="tasks-edit-btn"
+                                >
+                                    編集
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => handledeleteTask(task.id)}
+                                    className="tasks-delete-btn"
+                                >
+                                    削除
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+                <button
+                    type="button"
+                    onClick={handleAddTask}
+                    className="tasks-add-btn"
+                >
+                    タスクを追加
+                </button>
+            </div>
+        </div>
 	);
 }

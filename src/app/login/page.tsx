@@ -39,26 +39,52 @@ export default function LoginPage() {
 	};
 
 	return (
-		<>
-			<h1>ログインページ</h1>
-			<form onSubmit={handleSubmit(onSubmit)} noValidate>
-				<input
-					type="email"
-					{...register("email")}
-					placeholder="メールアドレス"
-				/>
-				{errors.email && (
-					<span style={{ color: "red" }}>{errors.email.message}</span>
-				)}
-				<input type="password" {...register("password")} placeholder="パスワード" />
-				{errors.password && (
-					<span style={{ color: "red" }}>{errors.password.message}</span>
-				)}
-				<button type="submit">ログイン</button>
-			</form>
-			<p>
-				アカウントをお持ちでない方は<a href="/register">こちら</a>
-			</p>
-		</>
+		<div className="form-container">
+			<div className="form-box">
+				<h1 className="page-title">ログインページ</h1>
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					noValidate
+				>
+					<input
+						type="email"
+						{...register("email")}
+						placeholder="メールアドレス"
+						className="form-input"
+					/>
+					{errors.email && (
+						<span className="form-error">
+							{errors.email.message}
+						</span>
+					)}
+					<input
+						type="password"
+						{...register("password")}
+						placeholder="パスワード"
+						className="form-input"
+					/>
+					{errors.password && (
+						<span className="form-error">
+							{errors.password.message}
+						</span>
+					)}
+					<button
+						type="submit"
+						className="form-button"
+					>
+						ログイン
+					</button>
+				</form>
+				<p className="form-bottom-text">
+					アカウントをお持ちでない方は
+					<a
+						href="/register"
+						className="navigation-link"
+					>
+						こちら
+					</a>
+				</p>
+			</div>
+		</div>
 	);
 }

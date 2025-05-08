@@ -11,7 +11,7 @@ export default function ProfileButton() {
 	};
 
 	return (
-		<button type="button" onClick={handleProfile}>
+		<button type="button" onClick={handleProfile} className="profile-edit-btn">
 			プロフィールの編集
 		</button>
 	);

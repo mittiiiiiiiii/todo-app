@@ -1,3 +1,4 @@
+import "./globals.css";
 import ProfileButton from "./components/profile";
 import { TRPCProvider } from '@/utils/trpcProvider';
 
